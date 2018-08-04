@@ -16,7 +16,7 @@ public:
   // mark with @abi action so that eosiocpp will add this as an action to the ABI
 
   //@abi action
-  void creategeoimage(const uint64_t timestamp, const account_name author, const uint256_t &hash, 
+  void creategeoimage(const uint64_t timestamp, const account_name author, const string &hash, 
                       const uint64_t latitude, const uint64_t longitude, const uint64_t accuracy)
   {
     // check if authorized for account to sign action
@@ -32,8 +32,8 @@ public:
 
     // add a record to our multi_index table poststable
     // const_iterator emplace( uint64_t payer, Lambda&& constructor )
-    poststable.emplace(author, [&](auto &post) {
-      post.pkey = poststable.available_primary_key();
+    geoimagestable.emplace(author, [&](auto &post) {
+      post.pkey = geoimagestable.available_primary_key();
       post.skey = skey;
       post.author = author;
     });
@@ -59,7 +59,7 @@ private:
     uint64_t timestamp;
     uint64_t author;
     uint128_t skey;
-    uint256_t hash;
+    string hash;
     uint128_t latlong;
     uint64_t latitude;
     uint64_t longitude;
@@ -74,7 +74,7 @@ private:
     uint128_t get_by_latlong() const { return latlong; }
 
     // call macro
-    EOSLIB_SERIALIZE(post_struct, (pkey)(timestamp)(author)(skey)(hash)(latitude)(longitude)(accuracy))
+    EOSLIB_SERIALIZE(geoimage_struct, (pkey)(timestamp)(author)(skey)(hash)(latitude)(longitude)(accuracy))
   };
 
   struct geobounty_struct
@@ -89,10 +89,10 @@ private:
 
     uint64_t pkey;
     uint64_t author;
-    uint256_t name;
+    string name;
     uint64_t target_time;
     uint128_t skey;
-    uint256_t ref_hash;
+    string ref_hash;
     uint128_t latlong;
     uint64_t latitude;
     uint64_t longitude;
@@ -106,13 +106,19 @@ private:
     uint128_t get_by_latlong() const { return latlong; }
 
     // call macro
-    EOSLIB_SERIALIZE(post_struct, (pkey)(author)(name)(target_time)(skey)(ref_hash)(latlong)(latitiude)(longitude))
+    EOSLIB_SERIALIZE(geobounty_struct, (pkey)(author)(name)(target_time)(skey)(ref_hash)(latlong)(latitude)(longitude))
   };
 
   // typedef multi_index<N(table_name), object_template_to_use, other_indices> multi_index_name;
-  typedef eosio::multi_index<N(posts), post_struct,
-                      indexed_by<N(getbyskey), const_mem_fun<post_struct, uint128_t, &post_struct::get_by_skey>>>
-      post_table;
+  typedef eosio::multi_index<N(geoimages), geoimage_struct,
+                      indexed_by<N(getbyskey), const_mem_fun<geoimage_struct, uint128_t, &geoimage_struct::get_by_skey>>>
+      geoimage_table;
+
+  // typedef multi_index<N(table_name), object_template_to_use, other_indices> multi_index_name;
+  typedef eosio::multi_index<N(geobounties), geobounty_struct,
+                      indexed_by<N(getbyskey), const_mem_fun<geobounty_struct, uint128_t, &geobounty_struct::get_by_skey>>>
+      geobounty_table;
+
 };
 
-EOSIO_ABI(blog, (createpost)(deletepost)(likepost)(editpost))
+EOSIO_ABI(geoalbum, (creategeoimage))
