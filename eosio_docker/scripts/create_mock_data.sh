@@ -28,5 +28,16 @@ jq -c '.[]' mock_data.json | while read i; do
   accuracy=$(jq -r '.accuracy' <<< "$i")
 
   # push the createpost action to the smart contract
-  cleos push action blogaccount createimage "[ $timestamp, "\""bobross"\"", "\""$hash"\"", "\""$longitude"\"", "\""$latitude"\"", "\""$accuracy"\""]" -p bobross@active
+  cleos push action blogaccount createimage "[ $timestamp, "\""bobross"\"", "\""$hash"\"", "\""$latitude"\"", "\""$longitude"\"", "\""$accuracy"\""]" -p bobross@active
+done
+
+jq -c '.[]' mock_data_createbounty.json | while read i; do
+  timestamp=$(jq -r '.timestamp' <<< "$i")
+  name=$(jq -r '.name' <<< "$i")
+  hash=$(jq -r '.hash' <<< "$i")
+  latitude=$(jq -r '.latitude' <<< "$i")
+  longitude=$(jq -r '.longitude' <<< "$i")
+
+  # push the createpost action to the smart contract
+  cleos push action blogaccount createbounty "[ $timestamp, "\""bobross"\"", "\""$name"\"", "\""$hash"\"", "\""$latitude"\"", "\""$longitude"\""]" -p bobross@active
 done
