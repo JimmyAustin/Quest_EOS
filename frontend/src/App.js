@@ -19,6 +19,7 @@ import {
 } from 'react-router-dom'
 
 import MapComponent from './screens/Map'
+import ApproveComponent from './screens/ApproveComponent'
 import CameraComponent from './screens/CameraComponent'
 
 class App extends Component {
@@ -196,6 +197,7 @@ class AppWithRouter extends React.Component {
         <div>
           <Route exact path="/" component={App} />
           <Route path="/map" component={MapComponent} />
+          <Route path="/approve" component={ApproveComponent} />
           <Route
             path="/camera"
             component={() => (
