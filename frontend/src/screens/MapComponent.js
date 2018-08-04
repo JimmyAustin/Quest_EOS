@@ -11,30 +11,40 @@ import {
 } from 'react-google-maps'
 
 var markerOk = require('../assets/styles/img/icons/google_maps_icon.png')
+var logo = require('../assets/styles/img/logo.jpg')
+var hideSplash = false
 
-const Splash = (state) => (
+const Splash = ({ state, hideSplash }) => (
   <div className="splash-main">
-    <a className="logotext" />
-    <button/>
+    <img className="logoimage" src={logo} />
+    <div className="logotext">Geohash</div>
+    <div className="button-container">
+      <div className="button-go" onClick={() => hideSplash()}>
+        Go!
+      </div>
+    </div>
   </div>
-  )
+)
 
-const Popup =({ name, updateState }) => {
-   return (
+const Popup = ({ name, updateState }) => {
+  return (
     <div className="popup-container">
       <div className="popup-image">
-      <h3>{name.name || 'Cape Otway erosion'}</h3>
+        <h3>{name.name || 'Cape Otway erosion'}</h3>
       </div>
       <div className="popup-main">
-      <div className="popup-description">
-        <h3>Requirements: </h3><h4>&nbsp;Time of day</h4>
-      </div>
-      <div className="popup-description">
-        <h3>Location: </h3><h4>&nbsp;33° 51' 54.5148 S..</h4>
-      </div>
-      <div className="popup-description">
-        <h3>Reward: </h3><h4>&nbsp;$$$</h4>
-      </div>
+        <div className="popup-description">
+          <h3>Requirements: </h3>
+          <h4>&nbsp;Time of day</h4>
+        </div>
+        <div className="popup-description">
+          <h3>Location: </h3>
+          <h4>&nbsp;33° 51' 54.5148 S..</h4>
+        </div>
+        <div className="popup-description">
+          <h3>Reward: </h3>
+          <h4>&nbsp;$$$</h4>
+        </div>
       </div>
       <button onClick={() => updateState()}>Capture Data</button>
     </div>
@@ -50,7 +60,8 @@ class MapComponent extends React.Component {
     didCenter: false,
     coords: null,
     currentMarker: null,
-    selectedJob: {}
+    selectedJob: {},
+    hideSplash: false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,7 +93,7 @@ class MapComponent extends React.Component {
     }
   }
 
-  setCameraState () {
+  setCameraState() {
     this.setState({ goToCamera: true })
   }
 
@@ -109,8 +120,11 @@ class MapComponent extends React.Component {
                 key={'infowindow'}
                 visible={self.state.showingInfoWindow}
               >
-              <Popup name={job.name} updateState={() => self.setCameraState()} />
-               {/*} <div
+                <Popup
+                  name={job.name}
+                  updateState={() => self.setCameraState()}
+                />
+                {/*} <div
                   style={{
                     width: '240px',
                     display: 'flex',
@@ -137,25 +151,31 @@ class MapComponent extends React.Component {
     })
     return (
       <div className="main">
-      <GoogleMap
-        defaultZoom={14}
-        defaultCenter={{ lat: -38.8559933, lng: 143.5100641 }}
-        center={{ lat: -38.8559933, lng: 143.5100641 }}
-        mapTypeId={'satellite'}
-        options={{ fullscreenControl: false }}
-      >
-        <Marker
-          position={this.props.coords}
-          defaultShape={'circle'}
-          icon={{ url: markerOk }}
-          shape={{
-            coords: [this.props.coords.lat, this.props.coords.lng, 10],
-            type: 'circle'
-          }}
-        />
-        {markers}
-      </GoogleMap>
-      <Splash />
+        <GoogleMap
+          defaultZoom={14}
+          defaultCenter={{ lat: -38.8559933, lng: 143.5100641 }}
+          center={{ lat: -38.8559933, lng: 143.5100641 }}
+          mapTypeId={'satellite'}
+          options={{ fullscreenControl: false }}
+        >
+          <Marker
+            position={this.props.coords}
+            defaultShape={'circle'}
+            icon={{ url: markerOk }}
+            shape={{
+              coords: [this.props.coords.lat, this.props.coords.lng, 10],
+              type: 'circle'
+            }}
+          />
+          {markers}
+        </GoogleMap>
+        {!this.state.hideSplash && (
+          <Splash
+            hideSplash={() => {
+              this.setState({ hideSplash: true })
+            }}
+          />
+        )}
       </div>
     )
   }

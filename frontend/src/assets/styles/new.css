@@ -1,55 +1,90 @@
 .popup-container {
-	display: flex;
-	flex-direction: column;
-	width: 60vw;
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
 }
 
 .popup-image {
-	background: url('./img/otway.jpg');
-	background-size: 100%;
-	width: 100%;
-	border-radius: 5px;
-	height: 120px;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	padding: 5px 10px;
+  background: url('./img/otway.jpg');
+  background-size: 100%;
+  width: 100%;
+  border-radius: 5px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5px 10px;
 }
 
 .popup-image h3 {
-	color: white;
-	font-size: 1.5rem;
+  color: white;
+  font-size: 1.5rem;
 }
 
 .popup-main {
-	width: 100%;
-	height: 100%;
-	margin: 8px;
-	background: white;
+  width: 100%;
+  height: 100%;
+  margin: 8px;
+  background: white;
 }
 
 .popup-description {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin: 1rem !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem !important;
 }
 
-.popup-description, .popup-description h4, .popup-description h3 {
-	font-size: 1.5rem;
-	margin: 0;
-	line-height: 1rem;
+.popup-description,
+.popup-description h4,
+.popup-description h3 {
+  font-size: 1.5rem;
+  margin: 0;
+  line-height: 1rem;
 }
 
 .popup-description h3 {
-	color: grey;
+  color: grey;
 }
 
 .splash-main {
-	width: 100vw;
-	height: 100vh;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: #642858;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #642858;
+}
+
+.logoimage {
+  width: 100%;
+}
+
+.logotext {
+  width: 100%;
+  text-align: center;
+  font-size: 5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-go {
+  text-align: center;
+  color: white;
+  background: #ef263d;
+  border-radius: 30px;
+  margin-top: 30px;
+  padding: 10px 40px;
+  box-shadow: 0px 4px 3px rgba(0, 0, 0, 0.1);
+}
+
+.button-go:active {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
 }
