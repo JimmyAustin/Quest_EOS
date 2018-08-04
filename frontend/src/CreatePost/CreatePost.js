@@ -1,24 +1,25 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-class CreatePost extends Component {
+class CreateImage extends Component {
   state = {
-    title: '',
-    content: '',
-    tag: ''
+    //title: '',
+    hash: '',
+    //content: '',
+    //tag: ''
   }
 
   handleOnChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  createPost = e => {
+  createImage = e => {
     e.preventDefault()
-    this.props.createPost({ ...this.state, likes: 0 })
+    this.props.createImage({ ...this.state })
     this.setState({
-      title: '',
-      content: '',
-      tag: ''
+      hash: '',
+      //content: '',
+      //tag: ''
     })
   }
 
@@ -29,14 +30,14 @@ class CreatePost extends Component {
           <input
             className='margin-bottom-15'
             name='title'
-            value={this.state.title}
+            value={this.state.hash}
             onChange={this.handleOnChange}
             placeholder='Title'
           />
           <textarea
             className='margin-bottom-15'
             name='content'
-            value={this.state.content}
+            value={this.state.hash}
             onChange={this.handleOnChange}
             rows={4}
             placeholder='Content'
@@ -44,12 +45,12 @@ class CreatePost extends Component {
           <input
             className='margin-bottom-15'
             name='tag'
-            value={this.state.tag}
+            value={this.state.hash}
             onChange={this.handleOnChange}
             placeholder='Tag'
           />
           <button
-            onClick={this.createPost}
+            onClick={this.createImage}
             type='submit'
             className='margin-right-15'
           >Create Post</button>
@@ -58,11 +59,11 @@ class CreatePost extends Component {
     )
   }
 }
-CreatePost.displayName = 'CreatePost' // Tell React Dev Tools the component name
+CreateImage.displayName = 'CreatePost' // Tell React Dev Tools the component name
 
 // Assign Prop Types
-CreatePost.propTypes = {
-  createPost: PropTypes.func.isRequired
+CreateImage.propTypes = {
+  createImage: PropTypes.func.isRequired
 }
 
-export default CreatePost
+export default CreateImage

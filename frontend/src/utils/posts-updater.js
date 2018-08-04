@@ -10,7 +10,7 @@ export const updatePostsForCreateAndEdit = (prevState, updatedPost) => {
   })
 
   if (!alreadyAdded) {
-    updatedPosts = [{ ...updatedPost, likes: 0 }, ...updatedPosts]
+    updatedPosts = [{ ...updatedPost }, ...updatedPosts]
   }
 
   return updatedPosts

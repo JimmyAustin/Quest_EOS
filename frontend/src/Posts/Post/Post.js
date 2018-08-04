@@ -33,7 +33,7 @@ class Post extends Component {
         <div className={`card-item ${this.state.liked ? 'liked' : ''}`} key={this.props.post.pkey}>
           <div className='padding-30'>
             <div className='heart' onClick={() => {this.likePost(this.props.post)}}></div>
-            <h2 className="margin-top-0">{this.props.post.title}</h2>
+            <h2 className="margin-top-0">{this.props.post.hash}</h2>
             <p>{this.props.post.content}</p>
           </div>
           <div className='padding-30 card-footer grid-3'>

@@ -4,7 +4,7 @@ import axios from 'axios'
 import EOSIOClient from './utils/eosio-client'
 import IOClient from './utils/io-client'
 import { updatePostsForCreateAndEdit, updatePostsForLike, updatePostsForDelete } from './utils/posts-updater'
-import CreatePost from './CreatePost/CreatePost'
+import CreateImage from './CreatePost/CreatePost'
 import Posts from './Posts/Posts'
 
 class App extends Component {
@@ -37,7 +37,8 @@ class App extends Component {
 
   // Load posts
   loadPosts = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/posts`)
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/images`)
+    console.log(response);
     this.setState({ posts: response.data.reverse() })
   }
 
@@ -132,7 +133,7 @@ class App extends Component {
         <div className='logo'>Hackathon Starter</div>
         <div className='main'>
           <div className='toggleCreate' onClick={this.toggleCreate} />
-          <CreatePost createPost={this.createPost} />
+          <CreateImage createImage={this.createPost} />
           <div className='cards'>
             <Posts
               posts={this.state.posts}

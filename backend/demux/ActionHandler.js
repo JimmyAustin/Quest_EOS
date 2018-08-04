@@ -2,7 +2,7 @@ const {
   handlers: { AbstractActionHandler }
 } = require('demux-js')
 const mongoose = require('mongoose')
-const Post = require('../api/post/post.model')
+const Post = require('../api/image/image.model')
 const BlockIndexState = require('../api/block-index-state/block-index-state.model')
 const io = require('../utils/io')
 
@@ -35,8 +35,9 @@ class ActionHandler extends AbstractActionHandler {
   }
 
   async handleWithState (handle) {
+    console.log('ahdnle')
     const context = { socket: io.getSocket() }
-    const state = { post: Post, blockIndexState: BlockIndexState }
+    const state = { image: Post, blockIndexState: BlockIndexState }
     try {
       await handle(state, context)
     } catch (err) {
@@ -45,6 +46,7 @@ class ActionHandler extends AbstractActionHandler {
   }
 
   async updateIndexState (state, block, isReplay) {
+    console.log("indexerino")
     try {
       await state.blockIndexState.update({}, {
         blockNumber: block.blockNumber,
@@ -57,6 +59,7 @@ class ActionHandler extends AbstractActionHandler {
   }
 
   async loadIndexState () {
+    console.log("loadsatet")
     try {
       let blockHash
       let blockNumber
