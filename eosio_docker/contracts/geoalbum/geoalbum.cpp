@@ -5,8 +5,6 @@ using std::string;
 
 class geoalbum : public contract
 {
-
-
   // blog class inherits the “contract” smart contract and use its constructor below
   using contract::contract;
 public:
@@ -16,7 +14,7 @@ public:
   // mark with @abi action so that eosiocpp will add this as an action to the ABI
 
   //@abi action
-  void creategeoimage(const uint64_t timestamp, const account_name author, const string &hash, 
+  void createimage(const uint64_t timestamp, const account_name author, const string &hash, 
                       const uint64_t latitude, const uint64_t longitude, const uint64_t accuracy)
   {
     // check if authorized for account to sign action
@@ -121,4 +119,4 @@ private:
 
 };
 
-EOSIO_ABI(geoalbum, (creategeoimage))
+EOSIO_ABI(geoalbum, (createimage))

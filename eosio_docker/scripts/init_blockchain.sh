@@ -43,7 +43,7 @@ echo "=== deploy smart contract ==="
 # $2 account holder name of the smart contract
 # $3 wallet that holds the keys for the account
 # $4 password for unlocking the wallet
-./scripts/deploy_contract.sh blog blogaccount blogwallet $(cat blog_wallet_password.txt)
+./scripts/deploy_contract.sh geoalbum blogaccount blogwallet $(cat blog_wallet_password.txt)
 
 echo "=== create user accounts ==="
 # script for creating data into blockchain

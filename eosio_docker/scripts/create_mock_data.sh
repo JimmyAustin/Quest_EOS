@@ -22,10 +22,11 @@ mkdir -p ~/bin && curl -sSL -o ~/bin/jq https://github.com/stedolan/jq/releases/
 
 jq -c '.[]' mock_data.json | while read i; do
   timestamp=$(jq -r '.timestamp' <<< "$i")
-  title=$(jq -r '.title' <<< "$i")
-  content=$(jq -r '.content' <<< "$i")
-  tag=$(jq -r '.tag' <<< "$i")
+  hash=$(jq -r '.hash' <<< "$i")
+  latitude=$(jq -r '.latitude' <<< "$i")
+  longitude=$(jq -r '.longitude' <<< "$i")
+  accuracy=$(jq -r '.accuracy' <<< "$i")
 
   # push the createpost action to the smart contract
-  cleos push action blogaccount createpost "[ $timestamp, "\""bobross"\"", "\""$title"\"", "\""$content"\"", "\""$tag"\""]" -p bobross@active
+  cleos push action blogaccount createimage "[ $timestamp, "\""bobross"\"", "\""$hash"\"", "\""$longitude"\"", "\""$latitude"\"", "\""$accuracy"\""]" -p bobross@active
 done
