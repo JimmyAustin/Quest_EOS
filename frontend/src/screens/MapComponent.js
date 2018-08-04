@@ -108,7 +108,7 @@ class MapComponent extends React.Component {
         defaultZoom={14}
         defaultCenter={{ lat: -38.8559933, lng: 143.5100641 }}
         center={{ lat: -38.8559933, lng: 143.5100641 }}
-        mapTypeId={'satellite'}
+        mapTypeId={'hybrid'}
         options={{ fullscreenControl: false }}
       >
         <Marker
