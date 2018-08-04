@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 
 import {
   withScriptjs,
@@ -51,6 +52,8 @@ class MapComponent extends React.Component {
   render() {
     const self = this
 
+    if (self.state.goToCamera) return <Redirect to="/camera" />
+
     const markers = this.props.jobs.map(function(job) {
       return (
         <Marker
@@ -69,9 +72,25 @@ class MapComponent extends React.Component {
                 key={'infowindow'}
                 visible={self.state.showingInfoWindow}
               >
-                <div style={{ width: '240px' }}>
-                  <h3>{self.state.selectedJob.name}</h3>
-                  <div>{self.state.selectedJob.description}</div>
+                <div
+                  style={{
+                    width: '240px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <div>
+                    <h3>{self.state.selectedJob.name}</h3>
+                    <div>{self.state.selectedJob.description}</div>
+                  </div>
+                  <img
+                    src="../assets/styles/img/icons/camera.svg"
+                    style={{ color: 'blue' }}
+                    onClick={() => {
+                      self.setState({ goToCamera: true })
+                    }}
+                  />
                 </div>
               </InfoWindow>
             )}

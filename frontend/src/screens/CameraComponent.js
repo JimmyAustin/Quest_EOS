@@ -3,16 +3,21 @@ import Camera from 'react-camera'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import swal from 'sweetalert2'
+import Eos from 'eosjs'
 
 export default class CameraScreen extends Component {
   state = {
     ipfsHash: null,
-    done: false
+    done: false,
+    eos: null
   }
 
   constructor(props) {
     super(props)
     this.takePicture = this.takePicture.bind(this)
+    const keyProvider = '5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5'
+    this.state.eos = Eos({ keyProvider })
+    console.log(this.state.eos)
   }
 
   takePicture() {
@@ -20,6 +25,26 @@ export default class CameraScreen extends Component {
       // we need some more swal in here
       axios.post('https://ipfs.enzypt.io/ipfs/', blob).then(res => {
         this.setState({ ipfsHash: res.headers['ipfs-hash'] })
+        this.state.eos.contract('blogaccount').then(account => {
+          console.log(account)
+          account.createimage(
+            {
+              author: 'bobross',
+              timestamp: Math.floor(Date.now() / 1000),
+              hash: this.state.ipfsHash,
+              bounty_author: 'government',
+              bounty_timestamp: 123456789,
+              latitude: 5,
+              longitude: 10,
+              accuracy: 9
+            },
+            {
+              authorization: ['bobross@active'],
+              broadcast: true
+            }
+          )
+          console.log(account)
+        })
         swal({
           title: 'Thanks!',
           text: 'Your contribution is appreciated ♡',
