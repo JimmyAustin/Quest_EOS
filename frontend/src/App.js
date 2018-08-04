@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import './assets/styles/new.css'
 
 import EOSIOClient from './utils/eosio-client'
 import IOClient from './utils/io-client'

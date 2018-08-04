@@ -12,7 +12,40 @@ import {
 
 var markerOk = require('../assets/styles/img/icons/google_maps_icon.png')
 
+const Splash = (state) => (
+  <div className="splash-main">
+    <a className="logotext" />
+    <button/>
+  </div>
+  )
+
+const Popup =({ name, updateState }) => {
+   return (
+    <div className="popup-container">
+      <div className="popup-image">
+      <h3>{name.name || 'Cape Otway erosion'}</h3>
+      </div>
+      <div className="popup-main">
+      <div className="popup-description">
+        <h3>Requirements: </h3><h4>&nbsp;Time of day</h4>
+      </div>
+      <div className="popup-description">
+        <h3>Location: </h3><h4>&nbsp;33° 51' 54.5148 S..</h4>
+      </div>
+      <div className="popup-description">
+        <h3>Reward: </h3><h4>&nbsp;$$$</h4>
+      </div>
+      </div>
+      <button onClick={() => updateState()}>Capture Data</button>
+    </div>
+  )
+}
+
 class MapComponent extends React.Component {
+  constructor(props) {
+    super(props)
+    this.setCameraState = this.setCameraState.bind(this)
+  }
   state = {
     didCenter: false,
     coords: null,
@@ -49,6 +82,10 @@ class MapComponent extends React.Component {
     }
   }
 
+  setCameraState () {
+    this.setState({ goToCamera: true })
+  }
+
   render() {
     const self = this
 
@@ -72,7 +109,8 @@ class MapComponent extends React.Component {
                 key={'infowindow'}
                 visible={self.state.showingInfoWindow}
               >
-                <div
+              <Popup name={job.name} updateState={() => self.setCameraState()} />
+               {/*} <div
                   style={{
                     width: '240px',
                     display: 'flex',
@@ -91,13 +129,14 @@ class MapComponent extends React.Component {
                       self.setState({ goToCamera: true })
                     }}
                   />
-                </div>
+                </div> */}
               </InfoWindow>
             )}
         </Marker>
       )
     })
     return (
+      <div className="main">
       <GoogleMap
         defaultZoom={14}
         defaultCenter={{ lat: -38.8559933, lng: 143.5100641 }}
@@ -116,6 +155,8 @@ class MapComponent extends React.Component {
         />
         {markers}
       </GoogleMap>
+      <Splash />
+      </div>
     )
   }
 }
