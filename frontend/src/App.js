@@ -21,6 +21,7 @@ import {
 import MapComponent from './screens/Map'
 import ApproveComponent from './screens/ApproveComponent'
 import CameraComponent from './screens/CameraComponent'
+import NewBountyComponent from './screens/NewBountyComponent'
 
 class App extends Component {
   state = {
@@ -198,6 +199,7 @@ class AppWithRouter extends React.Component {
           <Route exact path="/" component={App} />
           <Route path="/map" component={MapComponent} />
           <Route path="/approve" component={ApproveComponent} />
+          <Route path="/new_bounty" component={NewBountyComponent} />
           <Route
             path="/camera"
             component={() => (
