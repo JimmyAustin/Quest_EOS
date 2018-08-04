@@ -3,9 +3,23 @@ import axios from 'axios'
 
 import EOSIOClient from './utils/eosio-client'
 import IOClient from './utils/io-client'
-import { updatePostsForCreateAndEdit, updatePostsForLike, updatePostsForDelete } from './utils/posts-updater'
+import {
+  updatePostsForCreateAndEdit,
+  updatePostsForLike,
+  updatePostsForDelete
+} from './utils/posts-updater'
 import CreatePost from './CreatePost/CreatePost'
 import Posts from './Posts/Posts'
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect
+} from 'react-router-dom'
+
+import MapComponent from './screens/Map'
+import CameraComponent from './screens/CameraComponent'
 
 class App extends Component {
   state = {
@@ -14,7 +28,7 @@ class App extends Component {
   }
 
   // Instantiate shared eosjs helper and socket io helper
-  constructor (props) {
+  constructor(props) {
     super(props)
     const contractAccount = process.env.REACT_APP_EOSIO_CONTRACT_ACCOUNT
     this.eosio = new EOSIOClient(contractAccount)
@@ -22,16 +36,22 @@ class App extends Component {
   }
 
   // Enable Realtime updates via Socket.io
-  async componentDidMount () {
+  async componentDidMount() {
     this.loadPosts()
-    this.io.onMessage('createpost', (post) => {
-      this.setState((prevState) => ({ posts: updatePostsForCreateAndEdit(prevState, post) }))
+    this.io.onMessage('createpost', post => {
+      this.setState(prevState => ({
+        posts: updatePostsForCreateAndEdit(prevState, post)
+      }))
     })
-    this.io.onMessage('editpost', (post) => {
-      this.setState((prevState) => ({ posts: updatePostsForCreateAndEdit(prevState, post) }))
+    this.io.onMessage('editpost', post => {
+      this.setState(prevState => ({
+        posts: updatePostsForCreateAndEdit(prevState, post)
+      }))
     })
-    this.io.onMessage('deletepost', (post) => {
-      this.setState((prevState) => ({ posts: updatePostsForDelete(prevState, post) }))
+    this.io.onMessage('deletepost', post => {
+      this.setState(prevState => ({
+        posts: updatePostsForDelete(prevState, post)
+      }))
     })
   }
 
@@ -42,7 +62,7 @@ class App extends Component {
   }
 
   // Create a post
-  createPost = async (post) => {
+  createPost = async post => {
     try {
       const newPost = {
         ...post,
@@ -55,13 +75,16 @@ class App extends Component {
 
       await this.eosio.transaction(
         process.env.REACT_APP_EOSIO_ACCOUNT,
-        'createpost', {
+        'createpost',
+        {
           timestamp: newPost._id.timestamp,
           author: newPost._id.author,
           ...post
         }
       )
-      this.setState((prevState) => ({ posts: updatePostsForCreateAndEdit(prevState, newPost) }))
+      this.setState(prevState => ({
+        posts: updatePostsForCreateAndEdit(prevState, newPost)
+      }))
       this.toggleCreate()
     } catch (err) {
       console.error(err)
@@ -69,7 +92,7 @@ class App extends Component {
   }
 
   // Edit a post
-  editPost = async (post) => {
+  editPost = async post => {
     try {
       await this.eosio.transaction(
         process.env.REACT_APP_EOSIO_ACCOUNT,
@@ -80,14 +103,16 @@ class App extends Component {
           ...post
         }
       )
-      this.setState((prevState) => ({ posts: updatePostsForCreateAndEdit(prevState, post) }))
+      this.setState(prevState => ({
+        posts: updatePostsForCreateAndEdit(prevState, post)
+      }))
     } catch (err) {
       console.error(err)
     }
   }
 
   // Delete a post
-  deletePost = async (post) => {
+  deletePost = async post => {
     try {
       await this.eosio.transaction(
         process.env.REACT_APP_EOSIO_ACCOUNT,
@@ -97,23 +122,28 @@ class App extends Component {
           author: post._id.author
         }
       )
-      this.setState((prevState) => ({ posts: updatePostsForDelete(prevState, post) }))
+      this.setState(prevState => ({
+        posts: updatePostsForDelete(prevState, post)
+      }))
     } catch (err) {
       console.error(err)
     }
   }
 
   // Like a post
-  likePost = async (post) => {
+  likePost = async post => {
     try {
       await this.eosio.transaction(
         process.env.REACT_APP_EOSIO_ACCOUNT,
-        'likepost', {
+        'likepost',
+        {
           timestamp: post._id.timestamp,
           author: post._id.author
         }
       )
-      this.setState((prevState) => ({ posts: updatePostsForLike(prevState, post) }))
+      this.setState(prevState => ({
+        posts: updatePostsForLike(prevState, post)
+      }))
     } catch (err) {
       console.error(err)
     }
@@ -126,14 +156,18 @@ class App extends Component {
     }))
   }
 
-  render () {
+  render() {
     return (
-      <div className={`layoutStandard ${this.state.createOpen ? 'createOpen' : ''}`}>
-        <div className='logo'>Hackathon Starter</div>
-        <div className='main'>
-          <div className='toggleCreate' onClick={this.toggleCreate} />
+      <div
+        className={`layoutStandard ${
+          this.state.createOpen ? 'createOpen' : ''
+        }`}
+      >
+        <div className="logo">Hackathon Starter</div>
+        <div className="main">
+          <div className="toggleCreate" onClick={this.toggleCreate} />
           <CreatePost createPost={this.createPost} />
-          <div className='cards'>
+          <div className="cards">
             <Posts
               posts={this.state.posts}
               handleOnChange={this.handleOnChange}
@@ -149,4 +183,34 @@ class App extends Component {
 }
 App.displayName = 'App' // Tell React Dev Tools the component name
 
-export default App
+class AppWithRouter extends React.Component {
+  state = {
+    blob: null
+  }
+
+  componentDidMount() {}
+
+  render() {
+    return (
+      <Router>
+        <div>
+          <Route exact path="/" component={App} />
+          <Route path="/map" component={MapComponent} />
+          <Route
+            path="/camera"
+            component={() => (
+              <CameraComponent
+                blob={this.state.blob}
+                saveBlob={blob => {
+                  this.setState({ blob: blob })
+                }}
+              />
+            )}
+          />
+        </div>
+      </Router>
+    )
+  }
+}
+
+export default AppWithRouter
