@@ -24,6 +24,9 @@ const Splash = ({ state, hideSplash }) => (
         Go!
       </div>
     </div>
+    <div className="splash-description">
+      Crowdsourcing environmental research data
+    </div>
   </div>
 )
 
@@ -47,7 +50,9 @@ const Popup = ({ name, updateState }) => {
           <h4>&nbsp;$$$</h4>
         </div>
       </div>
-      <button onClick={() => updateState()}>Capture Data</button>
+      <button className="map-data-cap-button" onClick={() => updateState()}>
+        Capture Data
+      </button>
     </div>
   )
 }

@@ -12,18 +12,15 @@ import {
   Button,
   ButtonToolbar
 } from 'react-bootstrap'
+import swal from 'sweetalert2'
 
 export default class ApproveScreen extends React.Component {
   state = {
     lng: null,
     lat: null,
-    acc: null
-  }
-
-  componentWillMount() {}
-
-  render() {
-    var pictures_to_approve = [
+    acc: null,
+    hide: [],
+    images: [
       {
         title: 'Take a photo at the Gold Coast of coastal erosion',
         description:
@@ -41,8 +38,13 @@ export default class ApproveScreen extends React.Component {
         id: 2
       }
     ]
+  }
 
-    var panels = pictures_to_approve.map(function(x) {
+  componentWillMount() {}
+
+  render() {
+    var panels = this.state.images.map(x => {
+      if (this.state.hide.indexOf(x.id) !== -1) return <div />
       return (
         <Panel>
           <Panel.Heading>
@@ -54,8 +56,40 @@ export default class ApproveScreen extends React.Component {
           <Panel.Body>{x.description}</Panel.Body>
           <Panel.Body>
             <ButtonToolbar>
-              <Button bsStyle="success">Approve</Button>
-              <Button bsStyle="danger">Reject</Button>
+              <Button
+                bsStyle="success"
+                onClick={() => {
+                  swal({
+                    title: 'Thanks!',
+                    text: 'Image accepted!',
+                    type: 'success',
+                    confirmButtonText: 'Ok'
+                  }).then(() => {
+                    let hide = this.state.hide
+                    hide.push(x.id)
+                    this.setState({ hide: hide })
+                  })
+                }}
+              >
+                Approve
+              </Button>
+              <Button
+                bsStyle="danger"
+                onClick={() => {
+                  swal({
+                    title: 'Declined',
+                    text: 'Image declined!',
+                    type: 'error',
+                    confirmButtonText: 'Ok'
+                  }).then(() => {
+                    let hide = this.state.hide
+                    hide.push(x.id)
+                    this.setState({ hide: hide })
+                  })
+                }}
+              >
+                Reject
+              </Button>
             </ButtonToolbar>
           </Panel.Body>
         </Panel>
