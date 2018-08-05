@@ -17,10 +17,27 @@ export default class ApproveScreen extends React.Component {
   state = {
     lng: null,
     lat: null,
-    acc: null
+    acc: null,
+    approved: [],
+    rejected: []
   }
 
   componentWillMount() {}
+
+  approveClick(id, props) {
+    this.setState({approved: this.state.approved.concat([id])})
+    console.log('approve')
+    console.log(props)
+    console.log(id)
+  }
+
+  rejectClick(id, props) {
+    this.setState({rejected: this.state.rejected.concat([id])})
+
+    console.log('reject')
+    console.log(props)
+    console.log(id)
+  }
 
   render() {
     var pictures_to_approve = [
@@ -35,10 +52,37 @@ export default class ApproveScreen extends React.Component {
         description: 'After the storm last night, check the street for any obstructions of the road.',
         image_url: 'http://www.trbimg.com/img-57fa3a26/turbine/dp-hurricane-matthew-storm-damage-20161009',
         id: 2
+      },
+      {
+        title: 'Check Murrary River Erosion',
+        description: 'This portion of the murray river has experienced sustained erosion over the last 6 months.',
+        image_url: require('../assets/james_dummy_photo.jpg'),
+        id: 3
       }
     ]
 
+    var approval_panel = (<Panel>
+          <Panel.Heading> Thank You </Panel.Heading>
+          <Panel.Body>
+            The bounty has been released to the citizen scientist.
+
+          </Panel.Body>
+        </Panel>)
+
+    var revoked_panel = (<Panel>
+          <Panel.Heading> Thank You </Panel.Heading>
+          <Panel.Body>
+            The bounty has been revoked.
+          </Panel.Body>
+        </Panel>)
+    var self = this;
     var panels = pictures_to_approve.map(function(x) {
+      if (self.state.approved.filter((y) => { return x.id == y}).length > 0) {
+        return approval_panel;
+      }
+      if (self.state.rejected.filter((y) => { return x.id == y}).length > 0) {
+        return revoked_panel;
+      }
       return (
         <Panel>
           <Panel.Heading>
@@ -52,8 +96,8 @@ export default class ApproveScreen extends React.Component {
           </Panel.Body>
           <Panel.Body>
             <ButtonToolbar>
-              <Button bsStyle="success">Approve</Button>
-              <Button bsStyle="danger">Reject</Button>
+              <Button bsStyle="success" onClick={self.approveClick.bind(self, x.id)}>Approve</Button>
+              <Button bsStyle="danger" onClick={self.rejectClick.bind(self, x.id)}>Reject</Button>
             </ButtonToolbar>
           </Panel.Body>
         </Panel>
