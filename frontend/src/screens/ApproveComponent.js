@@ -25,20 +25,16 @@ export default class ApproveScreen extends React.Component {
   render() {
     var pictures_to_approve = [
       {
-        title: 'Test Image',
-        description: 'This is a test image!',
-        image_url: 'https://media.giphy.com/media/mokQK7oyiR8Sk/giphy.gif',
+        title: 'Take a photo at the Gold Coast of coastal erosion',
+        description: 'The photo should be taken from the beach near Sturt Street.',
+        image_url: 'https://www.sbs.com.au/yourlanguage/sites/sbs.com.au.yourlanguage/files/styles/full/public/podcasts//site_197_Filipino_441839.JPG?itok=_kkKIULx',
         id: 1
       },
       {
-        title: 'Test Image',
-        image_url: 'https://media.giphy.com/media/YIW0KqAQShjCE/giphy.gif',
+        title: 'Check Mitchelton Court for storm damage.',
+        description: 'After the storm last night, check the street for any obstructions of the road.',
+        image_url: 'http://www.trbimg.com/img-57fa3a26/turbine/dp-hurricane-matthew-storm-damage-20161009',
         id: 2
-      },
-      {
-        title: 'Test Image',
-        image_url: 'http://s3.amazonaws.com/barkpost-assets/50+GIFs/39.gif',
-        id: 3
       }
     ]
 
@@ -49,7 +45,10 @@ export default class ApproveScreen extends React.Component {
             <Panel.Title componentClass="h3">{x.title}</Panel.Title>
           </Panel.Heading>
           <Panel.Body>
-            <img src={x.image_url} />
+            <img style={{width: '50%', height: '50%'}}src={x.image_url} />
+          </Panel.Body>
+          <Panel.Body>
+            {x.description}
           </Panel.Body>
           <Panel.Body>
             <ButtonToolbar>
