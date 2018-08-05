@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
+import { Panel } from 'react-bootstrap'
 
 import {
   withScriptjs,
@@ -72,11 +73,13 @@ class MapComponent extends React.Component {
 
   componentDidMount() {
     // wew
-    this.onMarkerClick = this.onMarkerClick.bind(this)
     this.onMapClicked = this.onMapClicked.bind(this)
   }
 
   onMarkerClick(job, props, marker, e) {
+    console.log(job)
+    console.log(props)
+
     this.setState({
       selectedJob: job,
       activeMarker: marker,
@@ -107,7 +110,7 @@ class MapComponent extends React.Component {
         <Marker
           key={job.name}
           job={job}
-          onClick={self.onMarkerClick.bind(this, job)}
+          onClick={self.onMarkerClick.bind(self, job)}
           icon={{
             url: job_icon(job.expensive, job.completed),
             scaledSize: new window.google.maps.Size(43, 43)
