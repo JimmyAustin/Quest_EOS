@@ -71,7 +71,7 @@ export default class NewBountyComponent extends React.Component {
         </FormGroup>
 
         <FormGroup controlId="formBasicText">
-          <ControlLabel>How many data points do you want?</ControlLabel>
+          <ControlLabel>How many data points do you need?</ControlLabel>
           <FormControl
             type="text"
             value={this.state.value}

@@ -41,7 +41,7 @@ class SelectLocationMapComponent extends React.Component {
       <GoogleMap
         defaultZoom={14}
         center={{ lat: -33.873327, lng: 151.199035 }}
-        mapTypeId={'satellite'}
+        mapTypeId={'hybrid'}
         onClick={self.onMapClicked.bind(self)}
         options={{ fullscreenControl: false }}
       >
