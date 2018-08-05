@@ -27,16 +27,12 @@ export default class CameraScreen extends Component {
         this.setState({ ipfsHash: res.headers['ipfs-hash'] })
         this.state.eos.contract('blogaccount').then(account => {
           console.log(account)
-          account.createimage(
+          account.createbounty(
             {
               author: 'bobross',
-              timestamp: Math.floor(Date.now() / 1000),
               hash: this.state.ipfsHash,
-              bounty_author: 'government',
-              bounty_timestamp: 123456789,
-              latitude: 5,
               longitude: 10,
-              accuracy: 9
+              latitude: 5
             },
             {
               authorization: ['bobross@active'],
