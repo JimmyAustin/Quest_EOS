@@ -10,7 +10,8 @@ import {
   PanelGroup,
   Grid,
   Button,
-  ButtonToolbar
+  ButtonToolbar,
+  Glyphicon
 } from 'react-bootstrap'
 
 export default class ApproveScreen extends React.Component {
@@ -56,7 +57,7 @@ export default class ApproveScreen extends React.Component {
       {
         title: 'Check Murrary River Erosion',
         description: 'This portion of the murray river has experienced sustained erosion over the last 6 months.',
-        image_url: require('../assets/james_dummy_photo.jpg'),
+        image_url: require('../assets/lego_forest.jpg'),
         id: 3
       }
     ]
